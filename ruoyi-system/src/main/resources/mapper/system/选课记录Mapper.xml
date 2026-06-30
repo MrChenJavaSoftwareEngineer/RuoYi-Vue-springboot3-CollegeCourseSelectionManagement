@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.选课记录Mapper">
+
+    <resultMap type="选课记录" id="选课记录Result">
+        <result property="选课记录ID"    column="选课记录ID"    />
+        <result property="学号"    column="学号"    />
+        <result property="成绩"    column="成绩"    />
+        <result property="选课时间"    column="选课时间"    />
+        <result property="逻辑删除"    column="逻辑删除"    />
+        <result property="课程名称"    column="课程名称"    />
+    </resultMap>
+
+    <sql id="select选课记录Vo">
+        select 选课记录ID, 学号, 成绩, 选课时间, 逻辑删除, 课程名称 from 选课记录
+    </sql>
+
+    <select id="select选课记录List" parameterType="选课记录" resultMap="选课记录Result">
+        <include refid="select选课记录Vo"/>
+        <where>
+            <if test="学号 != null  and 学号 != ''"> and 学号 = #{学号}</if>
+            <if test="成绩 != null "> and 成绩 = #{成绩}</if>
+            <if test="选课时间 != null "> and 选课时间 = #{选课时间}</if>
+            <if test="逻辑删除 != null "> and 逻辑删除 = #{逻辑删除}</if>
+            <if test="课程名称 != null  and 课程名称 != ''"> and 课程名称 = #{课程名称}</if>
+        </where>
+    </select>
+
+    <select id="select选课记录By选课记录ID" parameterType="Long" resultMap="选课记录Result">
+        <include refid="select选课记录Vo"/>
+        where 选课记录ID = #{选课记录ID}
+    </select>
+
+    <insert id="insert选课记录" parameterType="选课记录" useGeneratedKeys="true" keyProperty="选课记录ID">
+        insert into 选课记录
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="学号 != null and 学号 != ''">学号,</if>
+            <if test="成绩 != null">成绩,</if>
+            <if test="选课时间 != null">选课时间,</if>
+            <if test="逻辑删除 != null">逻辑删除,</if>
+            <if test="课程名称 != null and 课程名称 != ''">课程名称,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="学号 != null and 学号 != ''">#{学号},</if>
+            <if test="成绩 != null">#{成绩},</if>
+            <if test="选课时间 != null">#{选课时间},</if>
+            <if test="逻辑删除 != null">#{逻辑删除},</if>
+            <if test="课程名称 != null and 课程名称 != ''">#{课程名称},</if>
+         </trim>
+    </insert>
+
+    <update id="update选课记录" parameterType="选课记录">
+        update 选课记录
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="学号 != null and 学号 != ''">学号 = #{学号},</if>
+            <if test="成绩 != null">成绩 = #{成绩},</if>
+            <if test="选课时间 != null">选课时间 = #{选课时间},</if>
+            <if test="逻辑删除 != null">逻辑删除 = #{逻辑删除},</if>
+            <if test="课程名称 != null and 课程名称 != ''">课程名称 = #{课程名称},</if>
+        </trim>
+        where 选课记录ID = #{选课记录ID}
+    </update>
+
+    <delete id="delete选课记录By选课记录ID" parameterType="Long">
+        delete from 选课记录 where 选课记录ID = #{选课记录ID}
+    </delete>
+
+    <delete id="delete选课记录By选课记录IDs" parameterType="String">
+        delete from 选课记录 where 选课记录ID in
+        <foreach item="选课记录ID" collection="array" open="(" separator="," close=")">
+            #{选课记录ID}
+        </foreach>
+    </delete>
+    <select id="selectByStudentId" parameterType="String" resultMap="选课记录Result">
+        <include refid="select选课记录Vo"/>
+        <where>
+            <if test="学号 != null  and 学号 != ''"> and 学号 = #{学号}</if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.教室Mapper">
+    
+    <resultMap type="教室" id="教室Result">
+        <result property="教室编号"    column="教室编号"    />
+        <result property="教室地址"    column="教室地址"    />
+        <result property="教室容量"    column="教室容量"    />
+        <result property="逻辑删除"    column="逻辑删除"    />
+    </resultMap>
+
+    <sql id="select教室Vo">
+        select 教室编号, 教室地址, 教室容量, 逻辑删除 from 教室
+    </sql>
+
+    <select id="select教室List" parameterType="教室" resultMap="教室Result">
+        <include refid="select教室Vo"/>
+        <where>  
+            <if test="教室地址 != null  and 教室地址 != ''"> and 教室地址 = #{教室地址}</if>
+            <if test="教室容量 != null "> and 教室容量 = #{教室容量}</if>
+            <if test="逻辑删除 != null "> and 逻辑删除 = #{逻辑删除}</if>
+        </where>
+    </select>
+    
+    <select id="select教室By教室编号" parameterType="String" resultMap="教室Result">
+        <include refid="select教室Vo"/>
+        where 教室编号 = #{教室编号}
+    </select>
+
+    <insert id="insert教室" parameterType="教室">
+        insert into 教室
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="教室编号 != null">教室编号,</if>
+            <if test="教室地址 != null and 教室地址 != ''">教室地址,</if>
+            <if test="教室容量 != null">教室容量,</if>
+            <if test="逻辑删除 != null">逻辑删除,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="教室编号 != null">#{教室编号},</if>
+            <if test="教室地址 != null and 教室地址 != ''">#{教室地址},</if>
+            <if test="教室容量 != null">#{教室容量},</if>
+            <if test="逻辑删除 != null">#{逻辑删除},</if>
+         </trim>
+    </insert>
+
+    <update id="update教室" parameterType="教室">
+        update 教室
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="教室地址 != null and 教室地址 != ''">教室地址 = #{教室地址},</if>
+            <if test="教室容量 != null">教室容量 = #{教室容量},</if>
+            <if test="逻辑删除 != null">逻辑删除 = #{逻辑删除},</if>
+        </trim>
+        where 教室编号 = #{教室编号}
+    </update>
+
+    <delete id="delete教室By教室编号" parameterType="String">
+        delete from 教室 where 教室编号 = #{教室编号}
+    </delete>
+
+    <delete id="delete教室By教室编号s" parameterType="String">
+        delete from 教室 where 教室编号 in 
+        <foreach item="教室编号" collection="array" open="(" separator="," close=")">
+            #{教室编号}
+        </foreach>
+    </delete>
+</mapper>

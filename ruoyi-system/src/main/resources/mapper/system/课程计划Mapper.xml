@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.课程计划Mapper">
+    
+    <resultMap type="课程计划" id="课程计划Result">
+        <result property="课程计划编号"    column="课程计划编号"    />
+        <result property="类型"    column="类型"    />
+        <result property="当天开始节次"    column="当天开始节次"    />
+        <result property="当天结束节次"    column="当天结束节次"    />
+        <result property="周内时间"    column="周内时间"    />
+        <result property="结课时间"    column="结课时间"    />
+        <result property="逻辑删除"    column="逻辑删除"    />
+        <result property="课程名称"    column="课程名称"    />
+        <result property="教室地址"    column="教室地址"    />
+        <result property="授课老师"    column="授课老师"    />
+    </resultMap>
+
+    <sql id="select课程计划Vo">
+        select 课程计划编号, 类型, 当天开始节次, 当天结束节次, 周内时间, 结课时间, 逻辑删除, 课程名称, 教室地址, 授课老师 from 课程计划
+    </sql>
+
+    <select id="select课程计划List" parameterType="课程计划" resultMap="课程计划Result">
+        <include refid="select课程计划Vo"/>
+        <where>  
+            <if test="类型 != null  and 类型 != ''"> and 类型 = #{类型}</if>
+            <if test="当天开始节次 != null "> and 当天开始节次 = #{当天开始节次}</if>
+            <if test="当天结束节次 != null "> and 当天结束节次 = #{当天结束节次}</if>
+            <if test="周内时间 != null "> and 周内时间 = #{周内时间}</if>
+            <if test="结课时间 != null "> and 结课时间 = #{结课时间}</if>
+            <if test="逻辑删除 != null "> and 逻辑删除 = #{逻辑删除}</if>
+            <if test="课程名称 != null  and 课程名称 != ''"> and 课程名称 = #{课程名称}</if>
+            <if test="教室地址 != null  and 教室地址 != ''"> and 教室地址 = #{教室地址}</if>
+            <if test="授课老师 != null  and 授课老师 != ''"> and 授课老师 = #{授课老师}</if>
+        </where>
+    </select>
+    
+    <select id="select课程计划By课程计划编号" parameterType="String" resultMap="课程计划Result">
+        <include refid="select课程计划Vo"/>
+        where 课程计划编号 = #{课程计划编号}
+    </select>
+
+    <insert id="insert课程计划" parameterType="课程计划">
+        insert into 课程计划
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="课程计划编号 != null">课程计划编号,</if>
+            <if test="类型 != null and 类型 != ''">类型,</if>
+            <if test="当天开始节次 != null">当天开始节次,</if>
+            <if test="当天结束节次 != null">当天结束节次,</if>
+            <if test="周内时间 != null">周内时间,</if>
+            <if test="结课时间 != null">结课时间,</if>
+            <if test="逻辑删除 != null">逻辑删除,</if>
+            <if test="课程名称 != null and 课程名称 != ''">课程名称,</if>
+            <if test="教室地址 != null and 教室地址 != ''">教室地址,</if>
+            <if test="授课老师 != null and 授课老师 != ''">授课老师,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="课程计划编号 != null">#{课程计划编号},</if>
+            <if test="类型 != null and 类型 != ''">#{类型},</if>
+            <if test="当天开始节次 != null">#{当天开始节次},</if>
+            <if test="当天结束节次 != null">#{当天结束节次},</if>
+            <if test="周内时间 != null">#{周内时间},</if>
+            <if test="结课时间 != null">#{结课时间},</if>
+            <if test="逻辑删除 != null">#{逻辑删除},</if>
+            <if test="课程名称 != null and 课程名称 != ''">#{课程名称},</if>
+            <if test="教室地址 != null and 教室地址 != ''">#{教室地址},</if>
+            <if test="授课老师 != null and 授课老师 != ''">#{授课老师},</if>
+         </trim>
+    </insert>
+
+    <update id="update课程计划" parameterType="课程计划">
+        update 课程计划
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="类型 != null and 类型 != ''">类型 = #{类型},</if>
+            <if test="当天开始节次 != null">当天开始节次 = #{当天开始节次},</if>
+            <if test="当天结束节次 != null">当天结束节次 = #{当天结束节次},</if>
+            <if test="周内时间 != null">周内时间 = #{周内时间},</if>
+            <if test="结课时间 != null">结课时间 = #{结课时间},</if>
+            <if test="逻辑删除 != null">逻辑删除 = #{逻辑删除},</if>
+            <if test="课程名称 != null and 课程名称 != ''">课程名称 = #{课程名称},</if>
+            <if test="教室地址 != null and 教室地址 != ''">教室地址 = #{教室地址},</if>
+            <if test="授课老师 != null and 授课老师 != ''">授课老师 = #{授课老师},</if>
+        </trim>
+        where 课程计划编号 = #{课程计划编号}
+    </update>
+
+    <delete id="delete课程计划By课程计划编号" parameterType="String">
+        delete from 课程计划 where 课程计划编号 = #{课程计划编号}
+    </delete>
+
+    <delete id="delete课程计划By课程计划编号s" parameterType="String">
+        delete from 课程计划 where 课程计划编号 in 
+        <foreach item="课程计划编号" collection="array" open="(" separator="," close=")">
+            #{课程计划编号}
+        </foreach>
+    </delete>
+</mapper>

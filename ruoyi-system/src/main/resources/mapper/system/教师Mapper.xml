@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.教师Mapper">
+    
+    <resultMap type="教师" id="教师Result">
+        <result property="教师工号"    column="教师工号"    />
+        <result property="姓名"    column="姓名"    />
+        <result property="职称"    column="职称"    />
+        <result property="部门"    column="部门"    />
+        <result property="逻辑删除"    column="逻辑删除"    />
+    </resultMap>
+
+    <sql id="select教师Vo">
+        select 教师工号, 姓名, 职称, 部门, 逻辑删除 from 教师
+    </sql>
+
+    <select id="select教师List" parameterType="教师" resultMap="教师Result">
+        <include refid="select教师Vo"/>
+        <where>  
+            <if test="姓名 != null  and 姓名 != ''"> and 姓名 = #{姓名}</if>
+            <if test="职称 != null  and 职称 != ''"> and 职称 = #{职称}</if>
+            <if test="部门 != null  and 部门 != ''"> and 部门 = #{部门}</if>
+            <if test="逻辑删除 != null "> and 逻辑删除 = #{逻辑删除}</if>
+        </where>
+    </select>
+    
+    <select id="select教师By教师工号" parameterType="String" resultMap="教师Result">
+        <include refid="select教师Vo"/>
+        where 教师工号 = #{教师工号}
+    </select>
+
+    <insert id="insert教师" parameterType="教师">
+        insert into 教师
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="教师工号 != null">教师工号,</if>
+            <if test="姓名 != null and 姓名 != ''">姓名,</if>
+            <if test="职称 != null">职称,</if>
+            <if test="部门 != null and 部门 != ''">部门,</if>
+            <if test="逻辑删除 != null">逻辑删除,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="教师工号 != null">#{教师工号},</if>
+            <if test="姓名 != null and 姓名 != ''">#{姓名},</if>
+            <if test="职称 != null">#{职称},</if>
+            <if test="部门 != null and 部门 != ''">#{部门},</if>
+            <if test="逻辑删除 != null">#{逻辑删除},</if>
+         </trim>
+    </insert>
+
+    <update id="update教师" parameterType="教师">
+        update 教师
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="姓名 != null and 姓名 != ''">姓名 = #{姓名},</if>
+            <if test="职称 != null">职称 = #{职称},</if>
+            <if test="部门 != null and 部门 != ''">部门 = #{部门},</if>
+            <if test="逻辑删除 != null">逻辑删除 = #{逻辑删除},</if>
+        </trim>
+        where 教师工号 = #{教师工号}
+    </update>
+
+    <delete id="delete教师By教师工号" parameterType="String">
+        delete from 教师 where 教师工号 = #{教师工号}
+    </delete>
+
+    <delete id="delete教师By教师工号s" parameterType="String">
+        delete from 教师 where 教师工号 in 
+        <foreach item="教师工号" collection="array" open="(" separator="," close=")">
+            #{教师工号}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.课程Mapper">
+    
+    <resultMap type="课程" id="课程Result">
+        <result property="课程编号"    column="课程编号"    />
+        <result property="课程名称"    column="课程名称"    />
+        <result property="课程简介"    column="课程简介"    />
+        <result property="课程容量"    column="课程容量"    />
+        <result property="学分"    column="学分"    />
+        <result property="先修课程编号"    column="先修课程编号"    />
+        <result property="所属专业"    column="所属专业"    />
+        <result property="逻辑删除"    column="逻辑删除"    />
+    </resultMap>
+
+    <sql id="select课程Vo">
+        select 课程编号, 课程名称, 课程简介, 课程容量, 学分, 先修课程编号, 所属专业, 逻辑删除 from 课程
+    </sql>
+
+    <select id="select课程List" parameterType="课程" resultMap="课程Result">
+        <include refid="select课程Vo"/>
+        <where>  
+            <if test="课程名称 != null  and 课程名称 != ''"> and 课程名称 = #{课程名称}</if>
+            <if test="课程简介 != null  and 课程简介 != ''"> and 课程简介 = #{课程简介}</if>
+            <if test="课程容量 != null "> and 课程容量 = #{课程容量}</if>
+            <if test="学分 != null "> and 学分 = #{学分}</if>
+            <if test="先修课程编号 != null  and 先修课程编号 != ''"> and 先修课程编号 = #{先修课程编号}</if>
+            <if test="所属专业 != null  and 所属专业 != ''"> and 所属专业 = #{所属专业}</if>
+            <if test="逻辑删除 != null "> and 逻辑删除 = #{逻辑删除}</if>
+        </where>
+    </select>
+    
+    <select id="select课程By课程编号" parameterType="String" resultMap="课程Result">
+        <include refid="select课程Vo"/>
+        where 课程编号 = #{课程编号}
+    </select>
+
+    <insert id="insert课程" parameterType="课程">
+        insert into 课程
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="课程编号 != null">课程编号,</if>
+            <if test="课程名称 != null and 课程名称 != ''">课程名称,</if>
+            <if test="课程简介 != null">课程简介,</if>
+            <if test="课程容量 != null">课程容量,</if>
+            <if test="学分 != null">学分,</if>
+            <if test="先修课程编号 != null">先修课程编号,</if>
+            <if test="所属专业 != null and 所属专业 != ''">所属专业,</if>
+            <if test="逻辑删除 != null">逻辑删除,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="课程编号 != null">#{课程编号},</if>
+            <if test="课程名称 != null and 课程名称 != ''">#{课程名称},</if>
+            <if test="课程简介 != null">#{课程简介},</if>
+            <if test="课程容量 != null">#{课程容量},</if>
+            <if test="学分 != null">#{学分},</if>
+            <if test="先修课程编号 != null">#{先修课程编号},</if>
+            <if test="所属专业 != null and 所属专业 != ''">#{所属专业},</if>
+            <if test="逻辑删除 != null">#{逻辑删除},</if>
+         </trim>
+    </insert>
+
+    <update id="update课程" parameterType="课程">
+        update 课程
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="课程名称 != null and 课程名称 != ''">课程名称 = #{课程名称},</if>
+            <if test="课程简介 != null">课程简介 = #{课程简介},</if>
+            <if test="课程容量 != null">课程容量 = #{课程容量},</if>
+            <if test="学分 != null">学分 = #{学分},</if>
+            <if test="先修课程编号 != null">先修课程编号 = #{先修课程编号},</if>
+            <if test="所属专业 != null and 所属专业 != ''">所属专业 = #{所属专业},</if>
+            <if test="逻辑删除 != null">逻辑删除 = #{逻辑删除},</if>
+        </trim>
+        where 课程编号 = #{课程编号}
+    </update>
+
+    <delete id="delete课程By课程编号" parameterType="String">
+        delete from 课程 where 课程编号 = #{课程编号}
+    </delete>
+
+    <delete id="delete课程By课程编号s" parameterType="String">
+        delete from 课程 where 课程编号 in 
+        <foreach item="课程编号" collection="array" open="(" separator="," close=")">
+            #{课程编号}
+        </foreach>
+    </delete>
+</mapper>
